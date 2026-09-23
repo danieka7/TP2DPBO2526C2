@@ -10,8 +10,8 @@ public class Film3D extends Film {
 
     // konstruktor
     public Film3D(String id, String judul, int durasi, String jamTayang, double hargaTiket, String genre, String sutradara, String ratingUsia, 
-        String formatLayar, double biayaKacamata, int jumlahKacamataTersedia){
-        super(id, judul, durasi, jamTayang, hargaTiket, genre, sutradara, ratingUsia); 
+        String bahasa, int tahunRilis, String formatLayar, double biayaKacamata, int jumlahKacamataTersedia){
+        super(id, judul, durasi, jamTayang, hargaTiket, genre, sutradara, ratingUsia, bahasa, tahunRilis); 
         this.formatLayar = formatLayar;
         this.biayaKacamata = biayaKacamata;
         this.jumlahKacamataTersedia = jumlahKacamataTersedia;
