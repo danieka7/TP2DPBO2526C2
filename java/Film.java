@@ -12,8 +12,8 @@ public class Film extends Tayangan {
     }
 
     // konstruktor
-    public Film(String id, String judul, int durasi, String jamTayang, double hargaTiket, String genre, String sutradara, String ratingUsia, 
-        String bahasa, int tahunRilis){
+    public Film(String id, String judul, int durasi, String jamTayang, double hargaTiket, 
+        String genre, String sutradara, String ratingUsia, String bahasa, int tahunRilis){
         super(id, judul, durasi, jamTayang, hargaTiket); 
         this.genre = genre;
         this.sutradara = sutradara;
