@@ -2,14 +2,16 @@
 class Tayangan{
     // atribut
     private $id;
+    private $gambar;
     private $judul;
     private $durasi;
     private $jamTayang;
     private $hargaTiket;
 
     // konstruktor
-    public function __construct($id, $judul, $durasi, $jamTayang, $hargaTiket){
+    public function __construct($id, $gambar,$judul, $durasi, $jamTayang, $hargaTiket){
         $this->id = $id;
+        $this->gambar = $gambar;
         $this->judul = $judul;
         $this->durasi = $durasi;
         $this->jamTayang = $jamTayang;
@@ -19,6 +21,9 @@ class Tayangan{
     // getter
     public function getId(){
         return $this->id;
+    }
+    public function getGambar(){
+        return $this->gambar;
     }
     public function getJudul(){
         return $this->judul;
@@ -36,6 +41,9 @@ class Tayangan{
     // setter
     public function setId($id){
         $this->id = $id;
+    }
+    public function setGambar($gambar){
+        $this->gambar = $gambar;
     }
     public function setJudul($judul){
         $this->judul = $judul;
