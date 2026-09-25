@@ -10,10 +10,10 @@ private:
     double biayaKacamata;
     int jumlahKacamataTersedia;
 
+public:
     // konstruktor kosong
     Film3D(){
     }
-
     // konstruktor
     Film3D(string id, string judul, int durasi, string jamTayang, double hargaTiket, 
         string genre, string sutradara, string ratingUsia, string bahasa, int tahunRilis, 
@@ -39,10 +39,10 @@ private:
     void setFormatLayar(string formatLayar){
         this->formatLayar = formatLayar;
     }
-    void setBiayaKacamata(){
+    void setBiayaKacamata(double biayaKacamata){
         this->biayaKacamata = biayaKacamata;
     }
-    void setJumlahKacamataTersedia(){
+    void setJumlahKacamataTersedia(int jumlahKacamataTersedia){
         this->jumlahKacamataTersedia = jumlahKacamataTersedia;
     }
 

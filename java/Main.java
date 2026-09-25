@@ -20,13 +20,7 @@ public class Main {
         // objek Tayangan, Film, maupun Film3D sekaligus (konsep polimorfisme)
         List<Tayangan> daftarTayangan = new ArrayList<>();
 
-        // ===================================================================
-        // 1. INISIALISASI 5 OBJEK AWAL (WAJIB ADA SEBELUM INPUT USER)
-        //    Semua dibuat sebagai Film3D supaya SETIAP kolom pada tabel
-        //    terisi penuh (tidak ada tanda "-"), karena Film3D adalah
-        //    kelas paling lengkap (mewarisi field Tayangan + Film,
-        //    ditambah field khusus Film3D)
-        // ===================================================================
+        // INISIALISASI 5 OBJEK AWAL 
 
         daftarTayangan.add(new Film3D("FD001", "Avatar", 162, "18:30", 75000,
                 "Sci-Fi", "James Cameron", "13+", "Inggris", 2009,
@@ -63,7 +57,6 @@ public class Main {
             System.out.println("|| 2. Tampilkan Semua Film            ||");
             System.out.println("|| 3. Keluar                          ||");
             System.out.println("========================================");
-            System.out.println("(Ketik 'batal' pada input kapan saja untuk kembali ke menu ini)");
             System.out.print(">> Pilih menu: ");
             String pilihan = scanner.nextLine();
 
@@ -75,7 +68,7 @@ public class Main {
                 case "2":
                     tampilkanTabel(daftarTayangan);
                     break;
-                case "3":
+                case "0":
                     berjalan = false;
                     System.out.println("Program selesai. Sampai jumpa!");
                     break;
@@ -87,67 +80,140 @@ public class Main {
         scanner.close();
     }
 
-    // =======================================================================
     // Method untuk mengambil input data Film3D dari user
-    // (field Tayangan + field Film + field khusus Film3D)
-    // =======================================================================
     private static Film3D inputFilm3D(Scanner scanner, List<Tayangan> daftarTayangan) {
-        System.out.println("--- Input Data Film3D ---");
+        System.out.println("--- Input Data Film3D (satu baris, dipisah spasi) ---");
+        System.out.println("Format : ID JUDUL DURASI JAM_TAYANG HARGA_TIKET GENRE SUTRADARA RATING_USIA BAHASA TAHUN_RILIS FORMAT_LAYAR BIAYA_KACAMATA JUMLAH_KACAMATA");
+        System.out.println("Contoh : FD007 Spider-Man: No Way Home 148 21:00 50000 Action/Superhero Jon Watts 13+ Inggris 2021 IMAX 3D 15000 200");
 
-        // ERROR HANDLING:
-        // 1. Format ID harus berawalan "FD" diikuti 3 digit angka, contoh: FD001
-        // 2. ID tidak boleh sama dengan ID yang sudah ada (duplikat)
-        // Program akan terus meminta ID baru selama salah satu syarat di atas
-        // belum terpenuhi (looping validasi).
-        String id;
+        // ERROR HANDLING: selama baris yang diketik user tidak valid
+        // (format salah, field kurang, ID salah format/duplikat, dsb),
         while (true) {
-            System.out.print("ID (format FDxxx)        : ");
-            id = scanner.nextLine();
+            System.out.print("Input : ");
+            String baris = scanner.nextLine();
 
-            if (!id.matches("FD\\d{3}")) {
-                System.out.println("Gagal! ID harus berformat FD diikuti 3 digit angka (contoh: FD001).\n");
-            } else if (idSudahAda(daftarTayangan, id)) {
-                System.out.println("Gagal! ID \"" + id + "\" sudah digunakan. Silakan masukkan ID lain.\n");
-            } else {
-                break; // ID valid dan belum dipakai, keluar dari loop
+            try {
+                Film3D hasil = parseBarisFilm3D(baris, daftarTayangan);
+                return hasil; // berhasil di-parse, keluar dari loop & method
+            } catch (IllegalArgumentException e) {
+                System.out.println("Gagal! " + e.getMessage() + "\n");
+            } catch (Exception e) {
+                // Menangkap error tak terduga lain (misal token kurang / index habis)
+                System.out.println("Gagal! Format input tidak lengkap atau tidak sesuai urutan.\n");
             }
         }
+    }
 
-        System.out.print("Judul                    : ");
-        String judul = scanner.nextLine();
-        System.out.print("Durasi (mnt)             : ");
-        int durasi = Integer.parseInt(scanner.nextLine());
-        System.out.print("Jam Tayang               : ");
-        String jamTayang = scanner.nextLine();
-        System.out.print("Harga Tiket              : ");
-        double hargaTiket = Double.parseDouble(scanner.nextLine());
-        System.out.print("Genre                    : ");
-        String genre = scanner.nextLine();
-        System.out.print("Sutradara                : ");
-        String sutradara = scanner.nextLine();
-        System.out.print("Rating Usia              : ");
-        String ratingUsia = scanner.nextLine();
-        System.out.print("Bahasa                   : ");
-        String bahasa = scanner.nextLine();
-        System.out.print("Tahun Rilis              : ");
-        int tahunRilis = Integer.parseInt(scanner.nextLine());
-        System.out.print("Format Layar             : ");
-        String formatLayar = scanner.nextLine();
-        System.out.print("Biaya Kacamata           : ");
-        double biayaKacamata = Double.parseDouble(scanner.nextLine());
-        System.out.print("Jumlah Kacamata Tersedia : ");
-        int jumlahKacamataTersedia = Integer.parseInt(scanner.nextLine());
+    // Mem-parsing satu baris input menjadi objek Film3D.
+    // Karena JUDUL, SUTRADARA, dan FORMAT_LAYAR bisa lebih dari satu kata,
+    // posisi field-field "jangkar" (angka & pola tetap) dicari dulu untuk
+    // menentukan batas tiap field yang panjangnya bisa berubah-ubah.
+    // Melempar IllegalArgumentException dengan pesan yang jelas jika
+    // formatnya tidak sesuai.
+    private static Film3D parseBarisFilm3D(String baris, List<Tayangan> daftarTayangan) {
+        String[] token = baris.trim().split("\\s+");
+        if (token.length < 11) {
+            throw new IllegalArgumentException("Jumlah data terlalu sedikit, cek kembali urutannya.");
+        }
+
+        // --- ID (token pertama) ---
+        String id = token[0];
+        if (!id.matches("FD\\d{3}")) {
+            throw new IllegalArgumentException("ID harus berformat FD diikuti 3 digit angka (contoh: FD001).");
+        }
+        if (idSudahAda(daftarTayangan, id)) {
+            throw new IllegalArgumentException("ID \"" + id + "\" sudah digunakan.");
+        }
+
+        // --- Cari token DURASI: token angka murni pertama setelah ID ---
+        int idxDurasi = -1;
+        for (int i = 1; i < token.length; i++) {
+            if (token[i].matches("\\d+")) {
+                idxDurasi = i;
+                break;
+            }
+        }
+        if (idxDurasi == -1 || idxDurasi == 1) {
+            throw new IllegalArgumentException("Durasi (angka) tidak ditemukan setelah judul.");
+        }
+
+        // --- JUDUL: semua token antara ID dan DURASI ---
+        String judul = String.join(" ", java.util.Arrays.copyOfRange(token, 1, idxDurasi));
+        int durasi = Integer.parseInt(token[idxDurasi]);
+
+        // --- JAM_TAYANG & HARGA_TIKET: dua token tepat setelah DURASI ---
+        if (idxDurasi + 2 >= token.length) {
+            throw new IllegalArgumentException("Jam tayang / harga tiket tidak ditemukan.");
+        }
+        String jamTayang = token[idxDurasi + 1];
+        double hargaTiket;
+        try {
+            hargaTiket = Double.parseDouble(token[idxDurasi + 2]);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Harga tiket harus berupa angka.");
+        }
+
+        // --- GENRE: satu token tepat setelah HARGA_TIKET ---
+        int idxGenre = idxDurasi + 3;
+        if (idxGenre >= token.length) {
+            throw new IllegalArgumentException("Genre tidak ditemukan.");
+        }
+        String genre = token[idxGenre];
+
+        // --- Cari token RATING_USIA: pola "13+", "17+", "SU", dst ---
+        int idxRating = -1;
+        for (int i = idxGenre + 1; i < token.length; i++) {
+            if (token[i].matches("SU|\\d+\\+")) {
+                idxRating = i;
+                break;
+            }
+        }
+        if (idxRating == -1 || idxRating == idxGenre + 1) {
+            throw new IllegalArgumentException("Rating usia (contoh: 13+, 17+, SU) tidak ditemukan setelah sutradara.");
+        }
+
+        // --- SUTRADARA: semua token antara GENRE dan RATING_USIA ---
+        String sutradara = String.join(" ", java.util.Arrays.copyOfRange(token, idxGenre + 1, idxRating));
+        String ratingUsia = token[idxRating];
+
+        // --- BAHASA: satu token tepat setelah RATING_USIA ---
+        int idxBahasa = idxRating + 1;
+        if (idxBahasa >= token.length) {
+            throw new IllegalArgumentException("Bahasa tidak ditemukan.");
+        }
+        String bahasa = token[idxBahasa];
+
+        // --- TAHUN_RILIS: satu token angka 4 digit setelah BAHASA ---
+        int idxTahun = idxBahasa + 1;
+        if (idxTahun >= token.length || !token[idxTahun].matches("(19|20)\\d{2}")) {
+            throw new IllegalArgumentException("Tahun rilis (4 digit, contoh 2024) tidak ditemukan.");
+        }
+        int tahunRilis = Integer.parseInt(token[idxTahun]);
+
+        // --- FORMAT_LAYAR: semua token antara TAHUN_RILIS dan 2 token terakhir ---
+        int idxAkhirFormat = token.length - 2; // eksklusif, 2 token terakhir milik BIAYA & JUMLAH
+        if (idxTahun + 1 >= idxAkhirFormat) {
+            throw new IllegalArgumentException("Format layar tidak ditemukan.");
+        }
+        String formatLayar = String.join(" ", java.util.Arrays.copyOfRange(token, idxTahun + 1, idxAkhirFormat));
+
+        // --- BIAYA_KACAMATA & JUMLAH_KACAMATA: 2 token terakhir ---
+        double biayaKacamata;
+        int jumlahKacamataTersedia;
+        try {
+            biayaKacamata = Double.parseDouble(token[token.length - 2]);
+            jumlahKacamataTersedia = Integer.parseInt(token[token.length - 1]);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Biaya kacamata / jumlah kacamata harus berupa angka.");
+        }
 
         return new Film3D(id, judul, durasi, jamTayang, hargaTiket,
                 genre, sutradara, ratingUsia, bahasa, tahunRilis,
                 formatLayar, biayaKacamata, jumlahKacamataTersedia);
     }
 
-    // =======================================================================
     // Method bantu untuk mengecek apakah suatu ID sudah dipakai
     // oleh objek lain di dalam daftar (baik itu Tayangan, Film, atau Film3D,
-    // karena getId() ada di superclass Tayangan)
-    // =======================================================================
     private static boolean idSudahAda(List<Tayangan> daftarTayangan, String id) {
         for (Tayangan t : daftarTayangan) {
             if (t.getId().equalsIgnoreCase(id)) {
@@ -157,11 +223,7 @@ public class Main {
         return false;
     }
 
-    // =======================================================================
     // Menampilkan seluruh data dalam SATU tabel dinamis.
-    // "Dinamis" di sini berarti lebar tiap kolom otomatis menyesuaikan
-    // panjang data terpanjang di kolom tersebut, bukan lebar tetap (fixed).
-    // =======================================================================
     private static void tampilkanTabel(List<Tayangan> daftar) {
         if (daftar.isEmpty()) {
             System.out.println("Belum ada data untuk ditampilkan.\n");
@@ -195,13 +257,9 @@ public class Main {
         System.out.println();
     }
 
-    // =======================================================================
     // Mengubah satu objek Tayangan/Film/Film3D menjadi array String
     // sesuai urutan kolom pada HEADER.
     // Menggunakan instanceof untuk mendeteksi tipe ASLI objek saat runtime
-    // (ini contoh polimorfisme: List berisi Tayangan, tapi isinya bisa
-    // sebenarnya Film atau Film3D)
-    // =======================================================================
     private static String[] buatBaris(Tayangan t, int nomor) {
         String genre = "-", sutradara = "-", ratingUsia = "-", bahasa = "-", tahunRilis = "-";
         String formatLayar = "-", biayaKacamata = "-", jumlahKacamata = "-";
