@@ -24,6 +24,7 @@ Saya **Dani Eka Saputra** dengan NIM **2501158** mengerjakan Tugas Praktikum 2 p
 │   ├── Tayangan.java
 │   └── testcase.txt
 ├── php
+│   ├── uploads
 │   ├── Film.php
 │   ├── Film3D.php
 │   ├── main.php
