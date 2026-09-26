@@ -163,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aksi']) && $_POST['ak
         // lagi (sesuai keinginan: tidak ada data yang tersimpan permanen).
         $daftarTayangan[] = $film3DBaru;
         $flash = ['tipe' => 'sukses', 'pesan' =>
-            "Film \"$judul\" berhasil ditambahkan (hanya tampil sekarang -- akan hilang lagi saat halaman dibuka ulang)."];
+            "Film \"$judul\" berhasil ditambahkan."];
     }
 }
 ?>

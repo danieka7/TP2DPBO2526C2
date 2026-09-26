@@ -55,7 +55,6 @@ int main() {
                 "Biografi", "Christopher Nolan", "17+", "Inggris", 2023,
                 "IMAX 3D", 12000, 220));
 
-    cout << "5 data awal berhasil dimuat ke sistem.\n\n";
 
     // tampilan menu
     bool berjalan = true;
@@ -77,7 +76,7 @@ int main() {
             cout << "Data Film3D berhasil ditambahkan.\n\n";
         } else if (pilihan == "2") {
             tampilkanTabel(daftarTayangan);
-        } else if (pilihan == "0") {
+        } else if (pilihan == "3") {
             berjalan = false;
             cout << "Program selesai. Sampai jumpa!\n";
         } else {
@@ -94,7 +93,7 @@ int main() {
 // BAHASA TAHUN_RILIS FORMAT_LAYAR BIAYA_KACAMATA JUMLAH_KACAMATA
 
 Film3D inputFilm3D(vector<Film3D>& daftarTayangan) {
-    cout << "--- Input Data Film3D (satu baris, dipisah spasi) ---\n";
+    cout << "--- Input Data Film3D ---\n";
     cout << "Format : ID JUDUL DURASI JAM_TAYANG HARGA_TIKET GENRE SUTRADARA RATING_USIA BAHASA TAHUN_RILIS FORMAT_LAYAR BIAYA_KACAMATA JUMLAH_KACAMATA\n";
 
     // ERROR HANDLING: selama baris yang diketik user tidak valid, program

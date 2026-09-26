@@ -247,8 +247,6 @@ def main():
                                    "Biografi", "Christopher Nolan", "17+", "Inggris", 2023,
                                    "IMAX 3D", 12000, 220))
 
-    print("5 data awal berhasil dimuat ke sistem.\n")
-
     # MENU INTERAKTIF: user hanya bisa MENAMBAH data (sesuai ketentuan)
     # dan menampilkan tabel seluruh data
     berjalan = True

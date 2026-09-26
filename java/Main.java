@@ -42,8 +42,6 @@ public class Main {
                 "Biografi", "Christopher Nolan", "17+", "Inggris", 2023,
                 "IMAX 3D", 12000, 220));
 
-        System.out.println("5 data awal berhasil dimuat ke sistem.\n");
-
         // ===================================================================
         // 2. MENU INTERAKTIF: user hanya bisa MENAMBAH data (sesuai ketentuan)
         //    dan menampilkan tabel seluruh data
@@ -68,7 +66,7 @@ public class Main {
                 case "2":
                     tampilkanTabel(daftarTayangan);
                     break;
-                case "0":
+                case "3":
                     berjalan = false;
                     System.out.println("Program selesai. Sampai jumpa!");
                     break;
