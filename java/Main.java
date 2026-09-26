@@ -82,9 +82,8 @@ public class Main {
 
     // Method untuk mengambil input data Film3D dari user
     private static Film3D inputFilm3D(Scanner scanner, List<Tayangan> daftarTayangan) {
-        System.out.println("--- Input Data Film3D (satu baris, dipisah spasi) ---");
+        System.out.println("--- Input Data Film3D ---");
         System.out.println("Format : ID JUDUL DURASI JAM_TAYANG HARGA_TIKET GENRE SUTRADARA RATING_USIA BAHASA TAHUN_RILIS FORMAT_LAYAR BIAYA_KACAMATA JUMLAH_KACAMATA");
-        System.out.println("Contoh : FD007 Spider-Man: No Way Home 148 21:00 50000 Action/Superhero Jon Watts 13+ Inggris 2021 IMAX 3D 15000 200");
 
         // ERROR HANDLING: selama baris yang diketik user tidak valid
         // (format salah, field kurang, ID salah format/duplikat, dsb),

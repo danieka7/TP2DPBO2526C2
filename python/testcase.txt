@@ -1,0 +1,5 @@
+FD006 Frozen II 103 19:00 55000 Animasi/Musikal Chris Buck & Jennifer Lee SU Inggris 2019 Dolby 3D 15000 200
+FD007 Spider-Man: No Way Home 148 21:00 60000 Action/Superhero Jon Watts 13+ Inggris 2021 IMAX 3D 15000 220
+FD008 Jurassic World 124 15:30 50000 Petualangan/Sci-Fi Colin Trevorrow 13+ Inggris 2015 RealD 3D 12000 180
+FD009 Alita: Battle Angel 122 17:00 55000 Sci-Fi/Action Robert Rodriguez 17+ Inggris 2019 IMAX 3D 15000 190
+FD010 Dune 155 20:30 65000 Sci-Fi/Petualangan Denis Villeneuve 13+ Inggris 2021 Dolby 3D 15000 210

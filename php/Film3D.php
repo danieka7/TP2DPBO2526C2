@@ -6,10 +6,10 @@ class Film3D extends Film{
     private $jumlahKacamataTersedia;
 
     // konstruktor
-    public function __construct($id, $judul, $durasi, $jamTayang, $hargaTiket,
+    public function __construct($id, $gambar, $judul, $durasi, $jamTayang, $hargaTiket,
                     $genre, $sutradara, $ratingUsia, $bahasa, $tahunRilis,
                     $formatLayar, $biayaKacamata, $jumlahKacamataTersedia){
-        parent:: __construct($id, $judul, $durasi, $jamTayang, $hargaTiket,
+        parent:: __construct($id, $gambar, $judul, $durasi, $jamTayang, $hargaTiket,
                     $genre, $sutradara, $ratingUsia, $bahasa, $tahunRilis);
         $this->formatLayar = $formatLayar;
         $this->biayaKacamata = $biayaKacamata;

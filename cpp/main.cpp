@@ -2,26 +2,10 @@
 #include <vector>
 #include <string>
 #include <sstream>
-
-// Cukup include Film3D.cpp saja: Film3D.cpp sudah meng-include Film.cpp,
-// dan Film.cpp sudah meng-include Tayangan.cpp. Jangan include Tayangan.cpp
-// atau Film.cpp lagi secara terpisah di sini, karena file-file itu tidak
-// punya include guard -> kalau ter-include dua kali akan error "redefinition".
 #include "Film3D.cpp"
-
 using namespace std;
 
-// =======================================================================
-// CATATAN: hanya perlu 4 library (iostream, vector, string, sstream).
-// Validasi format (angka, rating usia, tahun, dsb) yang sebelumnya pakai
-// <regex> sekarang ditulis manual lewat perbandingan karakter biasa.
-// Error handling yang sebelumnya pakai <stdexcept> (throw/catch) sekarang
-// pakai nilai kembalian bool + parameter keluaran pesan error.
-// =======================================================================
-
-// =======================================================================
-// DEKLARASI FUNGSI (function prototype)
-// =======================================================================
+// DEKLARASI FUNGSI 
 Film3D inputFilm3D(vector<Film3D>& daftarTayangan);
 bool parseBarisFilm3D(const string& baris, vector<Film3D>& daftarTayangan, Film3D& hasil, string& pesanError);
 bool idSudahAda(vector<Film3D>& daftarTayangan, const string& id);
@@ -73,7 +57,7 @@ int main() {
 
     cout << "5 data awal berhasil dimuat ke sistem.\n\n";
 
-    // MENU INTERAKTIF: hanya bisa MENAMBAH data Film3D & lihat tabel
+    // tampilan menu
     bool berjalan = true;
     while (berjalan) {
         cout << "========================================\n";
@@ -299,9 +283,7 @@ bool formatTahunValid(const string& s) {
     return dua == "19" || dua == "20";
 }
 
-// =======================================================================
 // Mengecek apakah suatu ID sudah dipakai objek lain di daftar
-// =======================================================================
 bool idSudahAda(vector<Film3D>& daftarTayangan, const string& id) {
     for (auto& t : daftarTayangan) {
         if (t.getId() == id) {
@@ -311,10 +293,8 @@ bool idSudahAda(vector<Film3D>& daftarTayangan, const string& id) {
     return false;
 }
 
-// =======================================================================
 // Menampilkan seluruh data dalam SATU tabel dinamis (lebar kolom
 // menyesuaikan panjang data terpanjang di kolom tersebut)
-// =======================================================================
 void tampilkanTabel(vector<Film3D>& daftar) {
     if (daftar.empty()) {
         cout << "Belum ada data untuk ditampilkan.\n\n";
@@ -347,9 +327,7 @@ void tampilkanTabel(vector<Film3D>& daftar) {
     cout << "\n";
 }
 
-// =======================================================================
 // Mengubah satu objek Film3D menjadi vector<string> sesuai kolom HEADER
-// =======================================================================
 vector<string> buatBaris(Film3D& f, int nomor) {
     return {
         to_string(nomor), f.getId(), f.getJudul(),

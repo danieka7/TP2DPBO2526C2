@@ -9,7 +9,7 @@ class Tayangan{
     private $hargaTiket;
 
     // konstruktor
-    public function __construct($id, $gambar,$judul, $durasi, $jamTayang, $hargaTiket){
+    public function __construct($id, $gambar, $judul, $durasi, $jamTayang, $hargaTiket){
         $this->id = $id;
         $this->gambar = $gambar;
         $this->judul = $judul;
@@ -54,11 +54,9 @@ class Tayangan{
     public function setJamTayang($jamTayang){
         $this->jamTayang = $jamTayang;
     }
-    public function setGetHarga($hargaTiket){
+    public function setHargaTiket($hargaTiket){
         $this->hargaTiket = $hargaTiket;
     }
-
-    
 }
 
 ?>
